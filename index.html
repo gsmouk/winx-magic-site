@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Магический уголок Винкс ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Quicksand', cursive;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимированный градиентный фон */
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 25%, #4a2c6d 50%, #2d1b4e 75%, #1a0b2e 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Летающие звёздочки */
+        .star {
+            position: fixed;
+            color: #ffd700;
+            font-size: 8px;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatStar linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatStar {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Магическая пыльца при движении мыши — ИСПРАВЛЕНО */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            animation: sparkleAnim 0.6s ease-out forwards;
+            z-index: 9999;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Волшебная шапка с эффектом стекла */
+        .hero {
+            text-align: center;
+            background: rgba(255, 245, 250, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 80px;
+            padding: 50px 30px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Анимированное приветствие */
+        .greeting {
+            font-size: 1.2rem;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #FFD700, #FF69B4, #BA55D3, #00CED1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(255,215,0,0.3);
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(255,215,0,0.3); }
+            50% { text-shadow: 0 0 40px rgba(255,215,0,0.6); }
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #ffe4f0;
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* Карусель фей */
+        .carousel-section {
+            margin-bottom: 50px;
+            overflow: hidden;
+            border-radius: 60px;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+        }
+
+        .carousel-title {
+            text-align: center;
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-shadow: 0 0 5px #ff69b4;
+        }
+
+        .carousel-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #ff69b4 #4a2c6d;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .carousel-track::-webkit-scrollbar-track {
+            background: #4a2c6d;
+            border-radius: 10px;
+        }
+
+        .carousel-track::-webkit-scrollbar-thumb {
+            background: #ff69b4;
+            border-radius: 10px;
+        }
+
+        .carousel-card {
+            min-width: 200px;
+            background: rgba(255, 245, 250, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+        }
+
+        .carousel-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 245, 250, 0.35);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .carousel-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .carousel-card .fairy-name {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        /* Сетка карточек-ссылок */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .magic-card {
+            background: rgba(255, 250, 245, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 55px;
+            padding: 35px 25px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .magic-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transition: 0.5s;
+            opacity: 0;
+        }
+
+        .magic-card:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .magic-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 105, 180, 0.6);
+            box-shadow: 0 25px 50px rgba(255, 105, 180, 0.3);
+            background: rgba(255, 250, 245, 0.25);
+        }
+
+        .card-emoji {
+            font-size: 75px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+            transition: 0.3s;
+        }
+
+        .magic-card:hover .card-emoji {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #ffe4f0;
+            line-height: 1.4;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 25px;
+            color: #d4b8e8;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Кнопка музыки */
+        .music-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(255,105,180,0.7);
+            backdrop-filter: blur(5px);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255,105,180,1);
+        }
+
+        @media (max-width: 700px) {
+            h1 { font-size: 2.2rem; }
+            .card-title { font-size: 1.3rem; }
+            .hero { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<button class="music-btn" id="musicBtn" title="Волшебная музыка">🎵</button>
+
+<div class="container">
+    <div class="hero">
+        <div class="greeting">✨ Добро пожаловать в магический мир ✨</div>
+        <h1>Волшебный сад Винкс</h1>
+        <p class="tagline">Твой личный уголок магии, стиля и вдохновения</p>
+    </div>
+
+    <div class="carousel-section">
+        <div class="carousel-title">🌟 Наши феи-вдохновительницы 🌟</div>
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+    </div>
+
+    <div class="cards-grid">
+        <a href="dressup.html" class="magic-card">
+            <div class="card-emoji">👗✨</div>
+            <div class="card-title">Переодевалки фей</div>
+            <div class="card-desc">Создавай уникальные образы, добавляй свои предметы и перетаскивай их как захочешь</div>
+        </a>
+
+        <a href="winxcard.html" class="magic-card">
+            <div class="card-emoji">🗺️💎</div>
+            <div class="card-title">Личная карта Винкс</div>
+            <div class="card-desc">Твой редактируемый документ: имя, любимая фея, своя картинка и магический фон</div>
+        </a>
+
+        <a href="gallery.html" class="magic-card">
+            <div class="card-emoji">🖼️🌸</div>
+            <div class="card-title">Галерея образов</div>
+            <div class="card-desc">Коллекция вдохновения и любимых стилей — добавляй свои!</div>
+        </a>
+
+        <a href="diary.html" class="magic-card">
+            <div class="card-emoji">📔💫</div>
+            <div class="card-title">Мой дневник феи</div>
+            <div class="card-desc">Личные магические заметки, которые всегда сохраняются</div>
+        </a>
+    </div>
+
+    <footer>
+        💖 Твоя магия начинается здесь! Нажимай на любую карточку 💖<br>
+        🌙 Сияй ярко, как фея Винкс ✨
+    </footer>
+</div>
+
+<script>
+    // ==================== ЛЕТАЮЩИЕ ЗВЁЗДОЧКИ ====================
+    function createStar() {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.innerHTML = ['✨', '⭐', '🌟', '💫', '⚡'][Math.floor(Math.random() * 5)];
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        star.style.fontSize = (Math.random() * 15 + 8) + 'px';
+        star.style.animationDuration = (Math.random() * 8 + 5) + 's';
+        star.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(star);
+        
+        setTimeout(() => star.remove(), 13000);
+    }
+    
+    setInterval(createStar, 800);
+    
+    // ==================== МАГИЧЕСКАЯ ПЫЛЬЦА ПРИ ДВИЖЕНИИ МЫШИ ====================
+    // ИСПРАВЛЕНО: используем клиентские координаты + прокрутку
+    document.addEventListener('mousemove', (e) => {
+        if (Math.random() > 0.95) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.innerHTML = ['✨', '⭐', '💖', '🌸', '🦋'][Math.floor(Math.random() * 5)];
+            
+            // Используем e.clientX и e.clientY (относительно окна браузера)
+            // + добавляем прокрутку, но position: fixed и так привязан к окну
+            // Поэтому просто clientX/clientY — идеально для fixed-элементов
+            sparkle.style.left = e.clientX - 10 + 'px';
+            sparkle.style.top = e.clientY - 10 + 'px';
+            
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 600);
+        }
+    });
+    
+    // ==================== КАРУСЕЛЬ ФЕЙ ====================
+    const fairies = [
+        { name: 'Блум 🔥', emoji: '🔥', img: 'images/fairy_fire.png' },
+        { name: 'Стелла ☀️', emoji: '☀️', img: 'images/fairy_light.png' },
+        { name: 'Флора 🌸', emoji: '🌸', img: 'images/fairy_flower.png' },
+        { name: 'Лейла 💧', emoji: '💧', img: 'images/fairy_water.png' },
+        { name: 'Муза 🎵', emoji: '🎵', img: 'images/fairy_magic.png' },
+        { name: 'Текна ⚙️', emoji: '⚙️', img: 'images/fairy_nature.png' }
+    ];
+    
+    const carouselTrack = document.getElementById('carouselTrack');
+    fairies.forEach(fairy => {
+        const card = document.createElement('div');
+        card.className = 'carousel-card';
+        card.innerHTML = `
+            <img src="${fairy.img}" alt="${fairy.name}" onerror="this.src='https://via.placeholder.com/120?text=${fairy.emoji}'">
+            <div class="fairy-name">${fairy.name}</div>
+        `;
+        card.addEventListener('click', () => {
+            const msg = document.createElement('div');
+            msg.innerText = `✨ ${fairy.name} приветствует тебя! ✨`;
+            msg.style.position = 'fixed';
+            msg.style.bottom = '100px';
+            msg.style.left = '50%';
+            msg.style.transform = 'translateX(-50%)';
+            msg.style.background = '#ff69b4';
+            msg.style.color = 'white';
+            msg.style.padding = '10px 20px';
+            msg.style.borderRadius = '40px';
+            msg.style.zIndex = '1000';
+            msg.style.fontWeight = 'bold';
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 2000);
+        });
+        carouselTrack.appendChild(card);
+    });
+    
+    // ==================== МУЗЫКА ====================
+    let audio = null;
+    let musicPlaying = false;
+    const musicBtn = document.getElementById('musicBtn');
+    
+    musicBtn.addEventListener('click', () => {
+        if (!audio) {
+            audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+            audio.loop = true;
+            audio.volume = 0.3;
+        }
+        
+        if (musicPlaying) {
+            audio.pause();
+            musicBtn.innerHTML = '🎵';
+            musicBtn.style.opacity = '0.7';
+        } else {
+            audio.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+            musicBtn.innerHTML = '🔊';
+            musicBtn.style.opacity = '1';
+        }
+        musicPlaying = !musicPlaying;
+    });
+    
+    // ==================== АНИМАЦИЯ ПОЯВЛЕНИЯ ====================
+    const cards = document.querySelectorAll('.magic-card');
+    cards.forEach((card, index) => {
+        card.style.animation = `fadeInUp 0.5s ease ${index * 0.1}s forwards`;
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+    });
+    
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+</body>
+</html>
